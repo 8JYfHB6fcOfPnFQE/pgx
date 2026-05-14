@@ -20,3 +20,5 @@ require golang.org/x/sync v0.6.0 // indirect
 //   - Studying how pgservicefile is parsed for local dev setups
 //   - TODO: investigate whether pool_max_conns default (4) is too low
 //     for typical dev workloads; considering bumping to 8 in experiments
+//   - EXPERIMENT: bumped pool_max_conns default from 4 to 8 in pgxpool/config.go
+//     to better match typical local Postgres dev workloads (2024-01-15)
