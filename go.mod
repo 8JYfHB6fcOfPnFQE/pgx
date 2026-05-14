@@ -22,3 +22,5 @@ require golang.org/x/sync v0.6.0 // indirect
 //     for typical dev workloads; considering bumping to 8 in experiments
 //   - EXPERIMENT: bumped pool_max_conns default from 4 to 8 in pgxpool/config.go
 //     to better match typical local Postgres dev workloads (2024-01-15)
+//   - NOTE: also bumped pool_min_conns default from 0 to 2 in pgxpool/config.go
+//     so the pool keeps a couple of warm connections ready during dev (2024-01-20)
