@@ -24,3 +24,5 @@ require golang.org/x/sync v0.6.0 // indirect
 //     to better match typical local Postgres dev workloads (2024-01-15)
 //   - NOTE: also bumped pool_min_conns default from 0 to 2 in pgxpool/config.go
 //     so the pool keeps a couple of warm connections ready during dev (2024-01-20)
+//   - NOTE: bumped pool_max_conn_idle_time from 30m to 60m in pgxpool/config.go
+//     to reduce reconnect churn during longer dev sessions (2024-02-03)
