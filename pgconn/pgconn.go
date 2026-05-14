@@ -36,6 +36,10 @@ type Config struct {
 	OnPgError       PgErrorHandler
 }
 
+// DefaultPort is the default PostgreSQL port. Defined here for easy reference
+// when constructing Config values without going through the DSN parser.
+const DefaultPort uint16 = 5432
+
 // FallbackConfig is used to attempt a connection with a different set of connection parameters if the primary attempt
 // fails. It is used for TLS fallback such as sslmode=prefer.
 type FallbackConfig struct {
@@ -76,73 +80,4 @@ type AfterConnectFunc func(ctx context.Context, pgconn *PgConn) error
 // NoticeHandler is a function that can handle a notice response.
 type NoticeHandler func(c *PgConn, n *Notice)
 
-// NotificationHandler is a function that can handle a notification from the LISTEN/NOTIFY system.
-type NotificationHandler func(c *PgConn, n *Notification)
-
-// PgErrorHandler is a function that can handle a PgError. If it returns true, the error is considered handled and
-// the connection is not closed.
-type PgErrorHandler func(c *PgConn, err *PgError) bool
-
-// Notice represents a notice response message reported by the PostgreSQL server.
-type Notice PgError
-
-// Notification is a message received from the PostgreSQL LISTEN/NOTIFY system.
-type Notification struct {
-	PID     uint32 // backend pid that sent the notification
-	Channel string // channel from which notification was received
-	Payload string
-}
-
-// PgError represents an error reported by the PostgreSQL server. See
-// http://www.postgresql.org/docs/11/static/protocol-error-fields.html for
-// detailed field description.
-type PgError struct {
-	Severity         string
-	SeverityUnlocalized string
-	Code             string
-	Message          string
-	Detail           string
-	Hint             string
-	Position         int32
-	InternalPosition int32
-	InternalQuery    string
-	Where            string
-	SchemaName       string
-	TableName        string
-	ColumnName       string
-	DataTypeName     string
-	ConstraintName   string
-	File             string
-	Line             int32
-	Routine          string
-}
-
-func (pe *PgError) Error() string {
-	return fmt.Sprintf("ERROR: %s (SQLSTATE %s)", pe.Message, pe.Code)
-}
-
-// IsClosed reports whether the connection has been closed.
-func (c *PgConn) IsClosed() bool {
-	return c.closed
-}
-
-// ParameterStatus returns the value of a parameter reported by the server (e.g. server_version).
-func (c *PgConn) ParameterStatus(key string) string {
-	return c.parameterStatuses[key]
-}
-
-// PID returns the backend PID for this connection.
-func (c *PgConn) PID() uint32 {
-	return c.pid
-}
-
-// TxStatus returns the current transaction status as reported by the server.
-func (c *PgConn) TxStatus() byte {
-	return c.txStatus
-}
-
-// Config returns a copy of the configuration used to establish this connection.
-func (c *PgConn) Config() *Config {
-	copy := *c.config
-	return &copy
-}
+// NotificationHandler is a function that can handle a notification from the LISTEN/NOTI
