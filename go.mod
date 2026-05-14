@@ -18,3 +18,5 @@ require golang.org/x/sync v0.6.0 // indirect
 // Notes:
 //   - Exploring connection pool tuning behavior (puddle v2)
 //   - Studying how pgservicefile is parsed for local dev setups
+//   - TODO: investigate whether pool_max_conns default (4) is too low
+//     for typical dev workloads; considering bumping to 8 in experiments
