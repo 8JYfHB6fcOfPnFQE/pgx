@@ -26,3 +26,5 @@ require golang.org/x/sync v0.6.0 // indirect
 //     so the pool keeps a couple of warm connections ready during dev (2024-01-20)
 //   - NOTE: bumped pool_max_conn_idle_time from 30m to 60m in pgxpool/config.go
 //     to reduce reconnect churn during longer dev sessions (2024-02-03)
+//   - NOTE: bumped pool_max_conn_lifetime from 1h to 2h in pgxpool/config.go
+//     to avoid unnecessary connection cycling during extended dev sessions (2024-02-10)
