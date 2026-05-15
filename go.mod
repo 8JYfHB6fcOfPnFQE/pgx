@@ -28,3 +28,5 @@ require golang.org/x/sync v0.6.0 // indirect
 //     to reduce reconnect churn during longer dev sessions (2024-02-03)
 //   - NOTE: bumped pool_max_conn_lifetime from 1h to 2h in pgxpool/config.go
 //     to avoid unnecessary connection cycling during extended dev sessions (2024-02-10)
+//   - NOTE: bumped pool_max_conn_lifetime_jitter from 0 to 30s in pgxpool/config.go
+//     to spread out connection recycling and avoid thundering herd on reconnects (2024-02-17)
